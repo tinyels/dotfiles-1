@@ -1,7 +1,68 @@
-[alias]
+[user]
+	name = Erin Stanfill
+	email = erin@truss.works
+[core]
+	excludesfile = /Users/erin/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree 2.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
 
-	# View abbreviated SHA, description, and history graph of the latest 20 commits
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+[alias]
+	# from https://ochronus.com/git-tips-from-the-trenches/
+	ds = diff --staged      # git ds - diff your staged changes == review before committing.
+	st = status -sb         # smarter status - include tag and branch info
+	fup = log --since '1 day ago' --oneline --author <YOUR_EMAIL>  # I know what you did yesterday - great for follow-ups
+	ls = log --pretty=format:"%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]" --decorate --date=short  # pretty one-line log with tags, branches and authors
+	lsv = log --pretty=format:"%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]" --decorate --date=short --numstat    # a verbose ls, shows changed files too
+
+	# some resets without explanation
+	r = reset
+	r1 = reset HEAD^
+	r2 = reset HEAD^^
+	rh = reset --hard
+	rh1 = reset HEAD^ --hard
+	rh2 = reset HEAD^^ --hard
+
+	# basic shortcuts
+	cp = cherry-pick
+	cl = clone
+	ci = commit
+	co = checkout
+	br = branch
+	diff = diff --word-diff
+	dc = diff --cached
+
+	# stash shortcuts
+	sl = stash list
+	sa = stash apply
+	ss = stash save
+
+	# log related - thanks to @mwd410
+	l = log
+	lh = log --graph
+	la = !git lh --date-order --all 2> /dev/null
+	lb = log --graph --simplify-by-decoration
+	lba = !git lb --all
+	h = !git --no-pager log --graph -n 15
+	a = !git --no-pager la -n 15
+	aa = add --all
+	br = branch
+	ch = cherry -v origin
+	dc = diff --cached
+	dump = cat-file -p
+	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+	l = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen(%ar) %C(bold blue)<%aN>% %C(yellow)%d%Creset %s' --abbrev-commit --date=relative
+	la = !git l --all
+	mt = mergetool
+	mine = log --author=Erin
+	poh = push -u origin HEAD # A handy way to push the current branch to the same name on the remote. see http://stackoverflow.com/questions/23241052/git-push-origin-head
+	type = cat-file -t
+	#from http://gitready.com/advanced/2011/10/21/ribbon-and-catchup-reading-new-commits.html
+	ribbon = tag --force _ribbon origin/developing
+	catchup = log --patch --reverse --topo-order _ribbon..origin/developing
 
 	# View the current working tree status using the short format
 	s = status -s
@@ -79,6 +140,8 @@
 		fi \
 	}; f"
 
+[branch]
+	autosetuprebase = always #rebase
 [apply]
 
 	# Detect whitespace errors when applying a patch
@@ -135,7 +198,7 @@
 [commit]
 
 	# https://help.github.com/articles/signing-commits-using-gpg/
-	gpgsign = true
+	gpgsign = false
 
 [diff]
 
